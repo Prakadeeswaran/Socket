@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/socket.io/socket.io.js'></script>
+       
+    </head>
+    <body>
+        <input type="text" id='messages' />
+	<input type="button" name="button" id="button" value="Button"/>
+	
+    </body>
+ <script>
+            var socket = io.connect('http://localhost:8080');
+	    socket.on('messages', function(data) {
+		alert(data);
+	    });
+	$("#button").on("click", function(){
+		var text = $("#messages").val();
+		socket.emit('messages', text);
+	});
+
+	socket.on('connect', function(data) {
+		alert('connected');
+		var name = prompt("Enter you nick name:");
+		socket.emit('join', name);
+	});
+          
+        </script>
+</html>
